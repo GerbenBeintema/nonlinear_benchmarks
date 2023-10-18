@@ -1,0 +1,23 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+dependencies = [
+    "numpy",
+    "tqdm",
+    "progressbar",
+    "scipy",
+    "requests",
+    "rarfile",
+]
+
+name = "nonlinear_benchmarks"
+version = "0.0.1"
+description = "The offcial dataload for http://www.nonlinearbenchmark.org/"
+authors = [
+    { name = "Gerben I. Beintema", email = "g.i.beintema@tue.nl" }
+]
