@@ -7,7 +7,7 @@ packages = [a for a in find_namespace_packages(where='.') if a[:6]=='nonlinear_b
 
 setup(name = 'nonlinear_benchmarks',
       version = '0.0.1',
-      description = 'The offcial dataload for http://www.nonlinearbenchmark.org/',
+      description = 'The official dataload for http://www.nonlinearbenchmark.org/',
       author = 'Gerben Beintema',
       author_email = 'g.i.beintema@tue.nl',
       license = 'BSD 3-Clause License',
