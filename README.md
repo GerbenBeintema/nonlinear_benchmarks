@@ -1,9 +1,9 @@
 
 # nonlinear_benchmarks
  
-The official dataloader of [nonlinearbenchmark.org](http://www.nonlinearbenchmark.org/)
+The official dataloader of [nonlinearbenchmark.org](http://www.nonlinearbenchmark.org/). This toolbox can automatically download, load and split many of the datasets which can be found on the website. 
 
-example to automaticly download and load https://www.nonlinearbenchmark.org/benchmarks/wiener-hammerstein.
+For intance, https://www.nonlinearbenchmark.org/benchmarks/wiener-hammerstein.
 
 ```python
 import nonlinear_benchmarks
@@ -14,6 +14,14 @@ u_test, y_test = test        #or test.u,      test.y
 ```
 
 In the `WienerHammerBenchMark` multiple options are provided. You can find the data files by using `raw_data=True` and obtain the entire, not train-test splitted, dataset by using `train_test_split=False`.
+
+# Install
+
+```
+pip install nonlinear-benchmarks
+```
+
+# Datasets
 
 Multiple datasets have been implemented with an official train test split which are given below. (p.s. datasets without a official train test split can be found in `nonlinear_benchmarks.not_splitted_benchmarks`)
 
@@ -36,3 +44,5 @@ Multiple datasets have been implemented with an official train test split which 
 ## Silverbox
 
 ![image](figures/Silverbox.jpg)
+
+Note that the test arrow full and the test arrow no extrapolation have some overlap.
