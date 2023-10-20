@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 name = "nonlinear_benchmarks"
-version = "0.0.1"
+version = "0.0.2"
 description = "The official dataload for http://www.nonlinearbenchmark.org/"
 authors = [
     { name = "Gerben I. Beintema", email = "g.i.beintema@tue.nl" }

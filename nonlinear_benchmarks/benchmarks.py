@@ -100,11 +100,12 @@ def CED(train_test_split=True, raw_data=False, dir_placement=None, force_downloa
         return datasets
 
 def Cascaded_Tanks(train_test_split=True, raw_data=False, dir_placement=None, force_download=False, url=None):
-    url = 'https://data.4tu.nl/file/d4810b78-6cdd-48fe-8950-9bd601e5f47f/3b697e42-01a4-4979-a370-813a456c36f5' if url is None else url
+    #does not work anymore?
+    # url = 'https://data.4tu.nl/file/d4810b78-6cdd-48fe-8950-9bd601e5f47f/3b697e42-01a4-4979-a370-813a456c36f5' if url is None else url
+    url = 'https://drive.google.com/file/d/1HnQf_gu0g_UlggoBqy2s34l9YJiFdN01/view' if url is None else url
     download_size = 7520592
     save_dir = cashed_download(url,'Cascaded_Tanks',zip_name='CascadedTanksFiles.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
     save_dir = os.path.join(save_dir,'CascadedTanksFiles')
-
 
     d = os.path.join(save_dir,'dataBenchmark.mat')
     if raw_data:
@@ -114,8 +115,8 @@ def Cascaded_Tanks(train_test_split=True, raw_data=False, dir_placement=None, fo
     uEst, uVal, yEst, yVal, Ts = out['uEst'][:,0],out['uVal'][:,0],out['yEst'][:,0],out['yVal'][:,0],out['Ts'][0,0]
     datasets = [Input_output_data(u=uEst,y=yEst, sampling_time=Ts),Input_output_data(u=uVal,y=yVal, sampling_time=Ts)]
     if train_test_split:
-        train_val = [datasets[0], datasets[1][:512]]
-        test = datasets[1][512:]
+        train_val = datasets[0]
+        test = datasets[1]
         return train_val, test
     else:
         return datasets
