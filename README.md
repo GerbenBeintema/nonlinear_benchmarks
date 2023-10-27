@@ -29,20 +29,52 @@ Multiple datasets have been implemented with an official train test split which 
 
 ![image](figures/EMPS.jpg)
 
+```python
+train_val, test = nonlinear_benchmarks.EMPS()
+train_val_u, train_val_y = train_val
+test_u, test_y = test
+```
+
 ## CED
 
 ![image](figures/CED.jpg)
+
+```python
+train_val, test = nonlinear_benchmarks.CED()
+(train_val_u_1, train_val_y_1), (train_val_u_2, train_val_y_2) = train_val
+(test_u_1, test_y_1), (test_u_2, test_y_2) = test
+```
 
 ## Cascaded_Tanks
 
 ![image](figures/Cascaded_Tanks.jpg)
 
+```python
+train_val, test = nonlinear_benchmarks.Cascaded_Tanks()
+train_val_u, train_val_y = train_val
+test_u, test_y = test
+```
+
+
 ## WienerHammerBenchMark
 
 ![image](figures/WienerHammerBenchMark.jpg)
 
+```python
+train_val, test = nonlinear_benchmarks.WienerHammerBenchMark()
+train_val_u, train_val_y = train_val
+test_u, test_y = test
+```
+
+
 ## Silverbox
 
 ![image](figures/Silverbox.jpg)
+
+```python
+train_val, test = nonlinear_benchmarks.Silverbox()
+multisine_train_val = train_val
+test_multisine, test_arrow_full, test_arrow_no_extrapolation = test
+```
 
 Note that the test arrow full and the test arrow no extrapolation have some overlap.

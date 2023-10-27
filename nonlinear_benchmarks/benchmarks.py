@@ -180,11 +180,11 @@ def Silverbox(train_test_split=True, raw_data=False, dir_placement=None, force_d
 
         multisine = data2[40650:127400]
         s = int(len(multisine)*0.75)
-        multisine_train_val, multi_sin_test = multisine[:s], multisine[s:]
+        multisine_train_val, test_multisine = multisine[:s], multisine[s:]
 
         from collections import namedtuple
-        m = namedtuple('Silverbox_data_splits', ['multisine_train_val', 'multi_sin_test', 'test_arrow_full', 'test_arrow_no_extrapolation'])
-        return m(multisine_train_val, multi_sin_test, test_arrow_full, test_arrow_no_extrapolation)
+        m = namedtuple('Silverbox_data_splits', ['test_multisine', 'test_arrow_full', 'test_arrow_no_extrapolation'])
+        return multisine_train_val, m(test_multisine, test_arrow_full, test_arrow_no_extrapolation)
     else:
         return data2
 
