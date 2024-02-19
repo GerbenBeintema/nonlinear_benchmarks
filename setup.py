@@ -1,7 +1,14 @@
 from setuptools import setup, find_namespace_packages
 
-with open('requirements.txt') as f:
-    install_requires = [line for line in f]
+# with open('requirements.txt') as f:
+#     install_requires = [line for line in f]
+
+install_requires = ['numpy',
+'tqdm',
+'progressbar',
+'scipy',
+'requests',
+'rarfile']
 
 packages = [a for a in find_namespace_packages(where='.') if a[:6]=='nonlinear_benchmarks']
 
