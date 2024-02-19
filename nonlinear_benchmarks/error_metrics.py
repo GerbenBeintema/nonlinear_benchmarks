@@ -1,6 +1,6 @@
 import numpy as np
 
-#error_mean does not seem useful
+#adapted from https://github.com/forgi86/pytorch-ident/blob/master/torchid/metrics.py
 
 def RMSE(y_true, y_pred, time_axis=0):
     """ Computes the Root Mean Square Error (RMSE) (also called RMS).
