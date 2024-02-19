@@ -78,3 +78,21 @@ test_multisine, test_arrow_full, test_arrow_no_extrapolation = test
 ```
 
 Note that the test arrow full and the test arrow no extrapolation have some overlap.
+
+# Error Metrics
+
+We also provide error metrics in `nonlinear_benchmarks.error_metrics`.
+
+```python
+from nonlinear_benchmarks.error_metrics import RMSE, NRMSE, R_squared, MAE, fit_index
+
+#generate example ouput data and prediction 
+y_true = np.random.randn(100)
+y_pred = y_true + np.random.randn(100)/100
+
+print(f"RMSE: {RMSE(y_true, y_pred)} (Root Mean Square Error)")
+print(f"NRMSE: {NRMSE(y_true, y_pred)} (Normalized Root Mean Square Error)")
+print(f"R-squared: {R_squared(y_true, y_pred)} (coefficient of determination R^2)")
+print(f'MAE: {MAE(y_true, y_pred)} (Mean Absolute value Error)')
+print(f"fit index: {fit_index(y_true, y_pred)} (https://arxiv.org/pdf/1902.00683.pdf page 31)")
+```
