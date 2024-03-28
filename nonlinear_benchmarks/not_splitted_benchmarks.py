@@ -142,7 +142,8 @@ def F16(train_test_split=True, output_index=0, raw_data=False, dir_placement=Non
     if train_test_split==True:
         print('Warning no offical train and test split has been determined for this dataset')
 
-    url = 'https://data.4tu.nl/ndownloader/files/24675560' if url is None else url
+    if url is None:
+        url = 'https://data.4tu.nl/file/b6dc643b-ecc6-437c-8a8a-1681650ec3fe/5414dfdc-6e8d-4208-be6e-fa553de9866f'
     download_size=148455295
     save_dir = cashed_download(url,'F16',zip_name='F16GVT_Files.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
     save_dir = os.path.join(save_dir,'F16GVT_Files/BenchmarkData') #matfiles location
@@ -213,3 +214,6 @@ def Industrial_robot(train_test_split=True, raw_data=False, dir_placement=None, 
     test = tests
 
     return train, test
+
+if __name__=='__main__':
+    data = F16()
