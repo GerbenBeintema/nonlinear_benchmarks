@@ -9,16 +9,17 @@ from nonlinear_benchmarks.utilities import *
 import numpy as np
 
 
-def BoucWen(train_test_split=True, raw_data=False, dir_placement=None, force_download=False, url=None):
+def BoucWen(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None):
 
     #todo: dot p file integration as system for training data
     #generate more data
     # url = 'http://www.nonlinearbenchmark.org/FILES/BENCHMARKS/BOUCWEN/BoucWenFiles.zip'
-    url = 'https://data.4tu.nl/ndownloader/files/24703124'
-    download_size = 5284363
-    save_dir = cashed_download(url,'BoucWen',zip_name='BoucWenFiles.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
+    # url = 'https://data.4tu.nl/ndownloader/items/7060f9bc-8289-411e-8d32-57bef2740d32/versions/1'
+    url = 'https://data.4tu.nl/file/7060f9bc-8289-411e-8d32-57bef2740d32/cd40469c-5064-4968-ae59-88cbb850264b' if url is None else url
+    download_size = 5649141
+    save_dir = cashed_download(url,'BoucWen',zip_name='Hysteretic Benchmark with a Dynamic Nonlinearity_1_all.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
     save_dir = os.path.join(save_dir,'BoucWenFiles/Test signals/Validation signals') #matfiles location
-    if raw_data:
+    if data_file_locations:
         return save_dir
 
     if train_test_split==True:
@@ -40,10 +41,10 @@ def BoucWen(train_test_split=True, raw_data=False, dir_placement=None, force_dow
     return datafiles
 
 
-def WienerHammerstein_Process_Noise(train_test_split=True, raw_data=False, dir_placement=None, force_download=False, url=None):
+def WienerHammerstein_Process_Noise(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None):
     '''Warning this is a quite a bit of data'''
     # url = 'http://www.nonlinearbenchmark.org/FILES/BENCHMARKS/WIENERHAMMERSTEINPROCESS/WienerHammersteinFiles.zip'
-    url = 'https://data.4tu.nl/ndownloader/files/24671987'
+    url = 'https://data.4tu.nl/file/1f194001-affa-4459-870a-ad9e9d9146f9/2dbbc046-1ac2-43b2-bf4e-53b5a4be8b96' if url is None else url
     download_size=423134764
     save_dir = cashed_download(url,'WienHammer',zip_name='WienerHammersteinFiles.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
     save_dir = os.path.join(save_dir,'WienerHammersteinFiles') #matfiles location
@@ -52,7 +53,7 @@ def WienerHammerstein_Process_Noise(train_test_split=True, raw_data=False, dir_p
     if train_test_split==True:
         print('Warning no offical train and test split has been determined for this dataset')
 
-    if raw_data:
+    if data_file_locations:
         return matfiles
     
     dataset = []
@@ -72,15 +73,15 @@ def WienerHammerstein_Process_Noise(train_test_split=True, raw_data=False, dir_p
 
 
 
-def ParWHF(train_test_split=True, raw_data=False, dir_placement=None, force_download=False, url=None):
+def ParWHF(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None):
     '''Parallel Wienner-Hammerstein'''
     # url = 'http://www.nonlinearbenchmark.org/FILES/BENCHMARKS/PARWH/ParWHFiles.zip'
-    url = 'https://data.4tu.nl/ndownloader/files/24666227' if url is None else url
+    url = 'https://data.4tu.nl/file/5edca002-b132-4985-b8b9-2353c6e85292/2aaf0790-9ade-43d5-a718-39062524fc93' if url is None else url
     download_size=58203304
     save_dir = cashed_download(url,'ParWHF',zip_name='ParWHFiles.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
     save_dir = os.path.join(save_dir,'ParWHFiles') #matfiles location
     d = os.path.join(save_dir,'ParWHData.mat')
-    if raw_data:
+    if data_file_locations:
         return d
 
     out = loadmat(d)
@@ -119,7 +120,7 @@ def ParWHF(train_test_split=True, raw_data=False, dir_placement=None, force_down
     return datafiles, datafiles_test
 
     
-def F16(train_test_split=True, output_index=0, raw_data=False, dir_placement=None, force_download=False, url=None):
+def F16(train_test_split=True, output_index=0, data_file_locations=False, dir_placement=None, force_download=False, url=None):
     '''The F-16 Ground Vibration Test benchmark features a high order system with clearance and friction nonlinearities at the mounting interface of the payloads.
 
     The experimental data made available to the Workshop participants were acquired on a full-scale F-16 aircraft on the occasion of the Siemens LMS Ground Vibration Testing Master Class, held in September 2014 at the Saffraanberg military basis, Sint-Truiden, Belgium.
@@ -148,7 +149,7 @@ def F16(train_test_split=True, output_index=0, raw_data=False, dir_placement=Non
     save_dir = cashed_download(url,'F16',zip_name='F16GVT_Files.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
     save_dir = os.path.join(save_dir,'F16GVT_Files/BenchmarkData') #matfiles location
     matfiles = [os.path.join(save_dir,a).replace('\\','/') for a in os.listdir(save_dir) if a.split('.')[-1]=='mat']
-    if raw_data:
+    if data_file_locations:
         return matfiles
     datasets = []
     for file in sorted(matfiles):
@@ -162,7 +163,7 @@ def F16(train_test_split=True, output_index=0, raw_data=False, dir_placement=Non
     return datasets
 
 
-def Industrial_robot(train_test_split=True, raw_data=False, dir_placement=None, force_download=False, url=None):
+def Industrial_robot(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None):
     '''An identification benchmark dataset for a full robot movement with a KUKA KR300 R2500 
     ultra SE industrial robot is presented. It is a robot with a nominal payload capacity of
     300 kg, a weight of 1120 kg, and a reach of 2500mm. It exhibits 12 states accounting for
@@ -182,7 +183,7 @@ def Industrial_robot(train_test_split=True, raw_data=False, dir_placement=None, 
 
     https://fdm-fallback.uni-kl.de/TUK/FB/MV/WSKL/0001/
 
-    https://fdm-fallback.uni-kl.de/TUK/FB/MV/WSKL/0001/Robot_Identification_Benchmark_Without_Raw_Data.rar
+    https://fdm-fallback.uni-kl.de/TUK/FB/MV/WSKL/0001/Robot_Identification_Benchmark_Without_data_file_locations.rar
 
     Special thanks to Jonas Weigand and co-authors for creating and sharing this benchmark!'''
     url = 'https://fdm-fallback.uni-kl.de/TUK/FB/MV/WSKL/0001/Robot_Identification_Benchmark_Without_Raw_Data.rar'  if url is None else url
@@ -190,12 +191,12 @@ def Industrial_robot(train_test_split=True, raw_data=False, dir_placement=None, 
 
 
 
-    download_size=12717003 
+    download_size = 12717003 
     save_dir = cashed_download(url, 'Industrial_robot', zip_name='Robot_Identification_Benchmark_Without_Raw_Data.rar',\
         dir_placement=dir_placement, download_size=download_size, force_download=force_download)
-    # save_dir = os.path.join(save_dir,'forward_identification_without_raw_data') #matfiles location
+    # save_dir = os.path.join(save_dir,'forward_identification_without_data_file_locations') #matfiles location
     d = os.path.join(save_dir,'forward_identification_without_raw_data.mat')
-    if raw_data:
+    if data_file_locations:
         return d
 
 

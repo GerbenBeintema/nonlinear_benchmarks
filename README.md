@@ -13,7 +13,7 @@ u_train, y_train = train_val #or train_val.u, train_val.y
 u_test, y_test = test        #or test.u,      test.y
 ```
 
-In the `WienerHammerBenchMark` multiple options are provided. You can find the data files by using `raw_data=True` and obtain the entire, not train-test splitted, dataset by using `train_test_split=False`.
+In the `WienerHammerBenchMark` multiple options are provided. You can find the data files by using `data_file_locations=True` and obtain the entire, not train-test splitted, dataset by using `train_test_split=False`.
 
 # Install
 

@@ -8,19 +8,24 @@ from pathlib import Path
 from sys import platform
 import shutil
 import progressbar
+import numpy as np
+from numbers import Number
 
 import requests
 
-
-
 class Input_output_data:
-    def __init__(self, u, y, sampling_time=None):
+    def __init__(self, u, y, sampling_time=None, name=None):
+        assert len(u)==len(y), f'input sequence u need to have the same length as y: currently {u.shape=}, {y.shape=}'
         self.u = u
         self.y = y
         self.sampling_time = sampling_time
+        self.name = '' if name is None else name
     
     def __repr__(self):
-        return f'Input_output_data of length: {len(self.u)} and sampling_time={self.sampling_time:.4f}'
+        z = '' if (self.name==None or self.name=='') else f' "{self.name}"' 
+        u, y = self.u, self.y
+        A = f'sampling_time={float(self.sampling_time):.4}' if isinstance(self.sampling_time, Number) else 'sampling_time=Discrete time'
+        return f'Input_output_data{z} {u.shape=} {y.shape=} {A}'
     
     def __iter__(self):
         yield self.u
@@ -44,6 +49,20 @@ class Input_output_data:
             return Input_output_data(u=unew, y=ynew, sampling_time=self.sampling_time)
         else:
             raise ValueError(f'argument with value "{arg}" of __getitem__ of type "{type(arg)}" is not allowed')
+    
+    def atleast_2d(self):
+        v = lambda x: x if x.ndim>1 else x[:,None]
+        return Input_output_data(u=v(self.u), y=v(self.y), sampling_time=self.sampling_time, name=self.name)
+
+def atleast_2d_fun(*data, apply=True):
+    if len(data)==1:
+        data = data[0]
+    if apply==False:
+        return data
+    if isinstance(data, Input_output_data):
+        return data.atleast_2d()
+    else:
+        return [atleast_2d_fun(d, apply=apply) for d in data]
 
 
 def get_tmp_benchmark_directory():
@@ -164,7 +183,7 @@ def cashed_download(url,name_dir,zip_name=None,dir_placement=None,download_size=
 
     if not zipped: return save_dir
     print('extracting file...')
-    
+    print(f'{save_loc=}')
     ending = file_name.split('.')[-1]
     if ending=='gz':
         import shutil
