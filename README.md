@@ -1,12 +1,16 @@
 
 # nonlinear_benchmarks
  
-The official dataloader of [nonlinearbenchmark.org](http://www.nonlinearbenchmark.org/). This toolbox can automatically download, load and split many of the datasets which can be found on the website. 
+The official dataloader of [nonlinearbenchmark.org](http://www.nonlinearbenchmark.org/). This toolbox simplifies the process of downloading, loading, and splitting various datasets available on the website.
 
-For instance, https://www.nonlinearbenchmark.org/benchmarks/wiener-hammerstein.
+## Usage Example
+
+https://www.nonlinearbenchmark.org/benchmarks/wiener-hammerstein is loaded as:
 
 ```python
 import nonlinear_benchmarks
+
+# Load the Wiener-Hammer Benchmark
 train_val, test = nonlinear_benchmarks.WienerHammerBenchMark()
 print(train_val) 
 # prints : Input_output_data "train WH" u.shape=(100000,) y.shape=(100000,)
@@ -22,12 +26,15 @@ print(test.n_initialization_samples)
 #                           start of the test set to initialize the model state.
 ```
 
-In the `WienerHammerBenchMark` and all other benchmark function multiple options are provided. 
- * `data_file_locations=True`: will return the raw data files locations
- * `train_test_split=False`: Gets the entire dataset without a split
- * `force_download=True`: Will force the (re-)downloading of benchmark files instead of 
- * `url=` : Will let you overwrite the download link manually (please contact maintainers if the default link is broken)
- * `atleast_2d=True`: e.g. convert `u.shape = (250,)` to `u.shape = (250,1)` (same for y)
+## Useful Options
+
+When using the `WienerHammerBenchMark` (or any other benchmark function), you can customize the behavior with the following options:
+
+ * `data_file_locations=True`: Returns the raw data file locations.
+ * `train_test_split=False`: Retrieves the entire dataset without splitting.
+ * `force_download=True`: Forces (re-)downloading of benchmark files.
+ * `url=` : Allows manual override of the download link (contact maintainers if the default link is broken).
+ * `atleast_2d=True`: Converts input/output arrays to at least 2D shape (e.g., `u.shape = (250,)` becomes `u.shape = (250, 1)`).
 
 # Install
 
