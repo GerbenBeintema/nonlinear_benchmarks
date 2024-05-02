@@ -9,13 +9,17 @@ For instance, https://www.nonlinearbenchmark.org/benchmarks/wiener-hammerstein.
 import nonlinear_benchmarks
 train_val, test = nonlinear_benchmarks.WienerHammerBenchMark()
 print(train_val) 
-# prints : Input_output_data "train WH" u.shape=(100000,) y.shape=(100000,) sampling_time=1.953e-05
+# prints : Input_output_data "train WH" u.shape=(100000,) y.shape=(100000,)
+#          sampling_time=1.953e-05
 print(test)
-# prints: Input_output_data "test WH" u.shape=(78800,) y.shape=(78800,) sampling_time=1.953e-05 n_initialization_samples=50
+# prints: Input_output_data "test WH" u.shape=(78800,) y.shape=(78800,) 
+#         sampling_time=1.953e-05 n_initialization_samples=50
 sampling_time = train_val.sampling_time #in seconds
 u_train, y_train = train_val  #or train_val.u, train_val.y
 u_test, y_test = test         #or test.u,      test.y
-print(test.n_initialization_samples) #the number of samples that can be used at the start of the test set to initialize the model state.
+print(test.n_initialization_samples) 
+#n_initialization_samples = The number of samples that can be used at the 
+#                           start of the test set to initialize the model state.
 ```
 
 In the `WienerHammerBenchMark` and all other benchmark function multiple options are provided. 
