@@ -16,23 +16,25 @@ print(train_val)
 #          sampling_time=1.953e-05
 print(test)
 # prints: Input_output_data "test WH" u.shape=(78800,) y.shape=(78800,) 
-#         sampling_time=1.953e-05 n_initialization_samples=50
+#         sampling_time=1.953e-05 state_initialization_window_length=50
 
-sampling_time = train_val.sampling_time #in seconds
-u_train, y_train = train_val  #or train_val.u, train_val.y
-u_test, y_test = test         #or test.u,      test.y
-print(test.n_initialization_samples) 
-#n_initialization_samples = The number of samples that can be used at the 
-#                           start of the test set to initialize the model state.
+sampling_time = train_val.sampling_time # in seconds
+u_train, y_train = train_val            # to unpack or use train_val.u, train_val.y
+u_test, y_test   = test                 # to unpack or use test.u,      test.y
+print(test.state_initialization_window_length) 
+#state_initialization_window_length = The number of samples that can be used at the 
+#                                     start of the test set to initialize the model state.
+
+print(train_val[:100])                  # creates a slice of the train_val data from 0 to 100
 ```
 
 ## Useful Options
 
 When using the `WienerHammerBenchMark` (or any other benchmark function), you can customize the behavior with the following options:
 
- * `data_file_locations=True`: Returns the raw data file locations.
- * `train_test_split=False`: Retrieves the entire dataset without splitting.
- * `force_download=True`: Forces (re-)downloading of benchmark files.
+ * `data_file_locations=True` : Returns the raw data file locations.
+ * `train_test_split=False` : Retrieves the entire dataset without splitting.
+ * `force_download=True` : Forces (re-)downloading of benchmark files.
  * `url=` : Allows manual override of the download link (contact maintainers if the default link is broken).
  * `atleast_2d=True`: Converts input/output arrays to at least 2D shape (e.g., `u.shape = (250,)` becomes `u.shape = (250, 1)`).
 
@@ -54,7 +56,7 @@ Multiple datasets have been implemented with an official train test split which 
 
 ```python
 train_val, test = nonlinear_benchmarks.EMPS()
-print(test.n_initialization_samples) # = 20
+print(test.state_initialization_window_length) # = 20
 train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
@@ -65,7 +67,7 @@ test_u, test_y = test
 
 ```python
 train_val, test = nonlinear_benchmarks.CED()
-print(test[0].n_initialization_samples) # = 4
+print(test[0].state_initialization_window_length) # = 4
 (train_val_u_1, train_val_y_1), (train_val_u_2, train_val_y_2) = train_val
 (test_u_1, test_y_1), (test_u_2, test_y_2) = test
 ```
@@ -80,7 +82,7 @@ You can use both training sets in your training, and please report the RMSE valu
 
 ```python
 train_val, test = nonlinear_benchmarks.Cascaded_Tanks()
-print(test.n_initialization_samples) # = 4
+print(test.state_initialization_window_length) # = 4
 train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
@@ -92,7 +94,7 @@ test_u, test_y = test
 
 ```python
 train_val, test = nonlinear_benchmarks.WienerHammerBenchMark()
-print(test.n_initialization_samples) # = 50
+print(test.state_initialization_window_length) # = 50
 train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
@@ -105,7 +107,7 @@ test_u, test_y = test
 ```python
 train_val, test = nonlinear_benchmarks.Silverbox()
 multisine_train_val = train_val
-print(test[0].n_initialization_samples) # = 50 (for all test sets)
+print(test[0].state_initialization_window_length) # = 50 (for all test sets)
 test_multisine, test_arrow_full, test_arrow_no_extrapolation = test
 ```
 
@@ -120,11 +122,25 @@ from nonlinear_benchmarks.error_metrics import RMSE, NRMSE, R_squared, MAE, fit_
 
 #generate example ouput data and prediction 
 y_true = np.random.randn(100)
-y_pred = y_true + np.random.randn(100)/100
+y_model = y_true + np.random.randn(100)/100
 
-print(f"RMSE: {RMSE(y_true, y_pred)} (Root Mean Square Error)")
-print(f"NRMSE: {NRMSE(y_true, y_pred)} (Normalized Root Mean Square Error)")
-print(f"R-squared: {R_squared(y_true, y_pred)} (coefficient of determination R^2)")
-print(f'MAE: {MAE(y_true, y_pred)} (Mean Absolute value Error)')
-print(f"fit index: {fit_index(y_true, y_pred)} (https://arxiv.org/pdf/1902.00683.pdf page 31)")
+print(f"RMSE: {RMSE(y_true, y_model)} (Root Mean Square Error)")
+print(f"NRMSE: {NRMSE(y_true, y_model)} (Normalized Root Mean Square Error)")
+print(f"R-squared: {R_squared(y_true, y_model)} (coefficient of determination R^2)")
+print(f'MAE: {MAE(y_true, y_model)} (Mean Absolute value Error)')
+print(f"fit index: {fit_index(y_true, y_model)} (https://arxiv.org/pdf/1902.00683.pdf page 31)")
+```
+
+# Benchmark Result Submission
+
+In the reporting of the benchmark result please use it as follows;
+
+```python
+train_val, test = nonlinear_benchmarks.WienerHammerBenchMark()
+n = test.state_initialization_window_length
+
+# y_model = your model output using only test.u and test.y[:n]
+
+RMSE_result = RMSE(test.y[n:], y_model[n:]) #skip the first n
+print(RMSE_result) #report this number
 ```

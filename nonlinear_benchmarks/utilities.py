@@ -14,19 +14,19 @@ from numbers import Number
 import requests
 
 class Input_output_data:
-    def __init__(self, u, y, sampling_time=None, name=None, n_initialization_samples=None):
+    def __init__(self, u, y, sampling_time=None, name=None, state_initialization_window_length=None):
         assert len(u)==len(y), f'input sequence u need to have the same length as y: currently {u.shape=}, {y.shape=}'
         self.u = u
         self.y = y
         self.sampling_time = sampling_time
         self.name = '' if name is None else name
-        self.n_initialization_samples = n_initialization_samples
+        self.state_initialization_window_length = state_initialization_window_length
     
     def __repr__(self):
         z = '' if (self.name==None or self.name=='') else f' "{self.name}"' 
         u, y = self.u, self.y
         A = f'sampling_time={float(self.sampling_time):.4}' if isinstance(self.sampling_time, Number) else 'sampling_time=Discrete time'
-        Z = f' n_initialization_samples={self.n_initialization_samples}' if self.n_initialization_samples!=None else ''
+        Z = f' state_initialization_window_length={self.state_initialization_window_length}' if self.state_initialization_window_length!=None else ''
         return f'Input_output_data{z} {u.shape=} {y.shape=} {A}{Z}'
     
     def __iter__(self):
@@ -57,7 +57,7 @@ class Input_output_data:
         return Input_output_data(u=v(self.u), y=v(self.y), \
                                 sampling_time=self.sampling_time, \
                                 name=self.name, \
-                                n_initialization_samples=self.n_initialization_samples)
+                                state_initialization_window_length=self.state_initialization_window_length)
 
 def atleast_2d_fun(*data, apply=True):
     if len(data)==1:

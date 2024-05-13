@@ -2,17 +2,17 @@ import numpy as np
 
 #adapted from https://github.com/forgi86/pytorch-ident/blob/master/torchid/metrics.py
 
-def RMSE(y_true, y_pred, time_axis=0):
+def RMSE(y_true, y_model, time_axis=0):
     """ Computes the Root Mean Square Error (RMSE) (also called RMS).
 
     The RMSE index is computed separately on each channel as:
-    RMSE = np.sqrt(np.mean((y_pred - y_true)**2, axis=time_axis))
+    RMSE = np.sqrt(np.mean((y_model - y_true)**2, axis=time_axis))
 
     Parameters
     ----------
     y_true : np.array
         Array of true values. 
-    y_pred : np.array
+    y_model : np.array
         Array of predicted values. 
     time_axis : int
         Time axis. All other axes define separate channels.
@@ -23,24 +23,24 @@ def RMSE(y_true, y_pred, time_axis=0):
         Array of RMSE values.
 
     """
-    assert y_true.shape == y_pred.shape, f'y_true and y_pred should have the same shape, currently y_true.shape={y_true.shape} and y_pred.shape={y_pred.shape}'
+    assert y_true.shape == y_model.shape, f'y_true and y_model should have the same shape, currently y_true.shape={y_true.shape} and y_model.shape={y_model.shape}'
 
-    RMSE_val = np.sqrt(np.mean((y_pred - y_true)**2, axis=time_axis))
+    RMSE_val = np.sqrt(np.mean((y_model - y_true)**2, axis=time_axis))
     return RMSE_val
 
-def NRMSE(y_true, y_pred, time_axis=0, std_tolerance=1e-10):
+def NRMSE(y_true, y_model, time_axis=0, std_tolerance=1e-10):
     """ Computes the Normalized Root Mean Square Error (NRMSE) (also called NRMS)
 
     The NRMSE index is computed separately on each channel as:
     NRMSE = RMSE/standard deviation of y_true per channel
           = RMSE/np.std(y_true, axis=time_axis)
-          = np.sqrt(np.mean((y_pred - y_true)**2, axis=time_axis))/np.std(y_true, axis=time_axis)
+          = np.sqrt(np.mean((y_model - y_true)**2, axis=time_axis))/np.std(y_true, axis=time_axis)
 
     Parameters
     ----------
     y_true : np.array
         Array of true values.
-    y_pred : np.array
+    y_model : np.array
         Array of predicted values.
     time_axis : int
         Time axis. All other axes define separate channels.
@@ -55,27 +55,27 @@ def NRMSE(y_true, y_pred, time_axis=0, std_tolerance=1e-10):
 
     """
     
-    RMSE_val = RMSE(y_true, y_pred, time_axis=time_axis)
+    RMSE_val = RMSE(y_true, y_model, time_axis=time_axis)
     std = np.std(y_true, axis=time_axis)
     assert np.all(std>std_tolerance), 'the standard deviation of y_true is almost zero! std={std}'
     NRMSE_val = RMSE_val/std
     return NRMSE_val
 
 
-def R_squared(y_true, y_pred, time_axis=0):
+def R_squared(y_true, y_model, time_axis=0):
     """ Computes the coefficient of determination R^2.
 
     The R^2 is computed separately on each channel. Given by
     R^2 = 1 - Mean Squared Error / Variance of y_test
         = 1 - MSE/np.var(y_true, axis=time_axis)
-        = 1 - np.mean((y_pred - y_true)**2, axis=time_axis)/np.var(y_true, axis=time_axis)
+        = 1 - np.mean((y_model - y_true)**2, axis=time_axis)/np.var(y_true, axis=time_axis)
         = 1 - NRMSE^2 = 1 - (RMSE/Std(y_true))^2
 
     Parameters
     ----------
     y_true : np.array
         Array of true values.  If must be at least 2D.
-    y_pred : np.array
+    y_model : np.array
         Array of predicted values.  If must be compatible with y_true'
     time_axis : int
         Time axis. All other axes define separate channels.
@@ -86,20 +86,20 @@ def R_squared(y_true, y_pred, time_axis=0):
         Array of r_squared value.
     """
 
-    return 1.0 - NRMSE(y_true, y_pred, time_axis=time_axis)**2
+    return 1.0 - NRMSE(y_true, y_model, time_axis=time_axis)**2
 
 
-def MAE(y_true, y_pred, time_axis=0):
+def MAE(y_true, y_model, time_axis=0):
     """ Computes the Mean Absolute value Error (MAE)
 
     The MAE is computed separately on each channel as:
-    MSE = np.mean(np.abs(y_true - y_pred), axis=time_axis)
+    MSE = np.mean(np.abs(y_true - y_model), axis=time_axis)
 
     Parameters
     ----------
     y_true : np.array
         Array of true values.  If must be at least 2D.
-    y_pred : np.array
+    y_model : np.array
         Array of predicted values.  If must be compatible with y_true'
     time_axis : int
         Time axis. All other axes define separate channels.
@@ -109,20 +109,20 @@ def MAE(y_true, y_pred, time_axis=0):
     MSE_val : np.array
         Array of mean absolute value errors.
     """
-    assert y_true.shape == y_pred.shape, f'y_true and y_pred should have the same shape, currently y_true.shape={y_true.shape} and y_pred.shape={y_pred.shape}'
+    assert y_true.shape == y_model.shape, f'y_true and y_model should have the same shape, currently y_true.shape={y_true.shape} and y_model.shape={y_model.shape}'
 
-    MSE_val = np.mean(np.abs(y_true - y_pred), axis=time_axis)
+    MSE_val = np.mean(np.abs(y_true - y_model), axis=time_axis)
     return MSE_val
 
 
-def fit_index(y_true, y_pred, time_axis=0):
+def fit_index(y_true, y_model, time_axis=0):
     """ Computes the per-channel fit index.
 
     The fit index is commonly used in System Identification. See the definition in the System Identification Toolbox
     or in the paper 'Nonlinear System Identification: A User-Oriented Road Map',
     https://arxiv.org/abs/1902.00683, page 31.
     The fit index is computed separately on each channel.
-    fit = 100*(1 - np.sqrt(np.mean((y_true-y_pred)**2))/np.sqrt(np.mean((y_true-np.mean(y_true))**2) 
+    fit = 100*(1 - np.sqrt(np.mean((y_true-y_model)**2))/np.sqrt(np.mean((y_true-np.mean(y_true))**2) 
         = 100*(1 - RMSE/Standard deviation of y_true)
         = 100*(1 - NRMSE)
         = 100*(1 - sqrt(1-R^2))
@@ -131,7 +131,7 @@ def fit_index(y_true, y_pred, time_axis=0):
     ----------
     y_true : np.array
         Array of true values.  If must be at least 2D.
-    y_pred : np.array
+    y_model : np.array
         Array of predicted values.  It must be compatible with y_true'
     time_axis : int
         Time axis. All other axes define separate channels.
@@ -143,7 +143,7 @@ def fit_index(y_true, y_pred, time_axis=0):
 
     """
 
-    fit_index_val = 100*(1 - NRMSE(y_true, y_pred, time_axis=time_axis))
+    fit_index_val = 100*(1 - NRMSE(y_true, y_model, time_axis=time_axis))
     return fit_index_val
 
 
@@ -154,13 +154,13 @@ if __name__ == '__main__':
         y_true_std = 0.1
         y_true = np.random.randn(N, *ny)*y_true_std
         noise = np.random.randn(N, *ny)/SNR*y_true_std
-        y_pred = y_true + noise
+        y_model = y_true + noise
         
-        RMSE_val = RMSE(y_pred, y_true)
-        NRMSE_val = NRMSE(y_pred, y_true)
-        R_squared_val = R_squared(y_true, y_pred)
-        MAE_val = MAE(y_true, y_pred)
-        fit_index_val = fit_index(y_true, y_pred)
+        RMSE_val = RMSE(y_model, y_true)
+        NRMSE_val = NRMSE(y_model, y_true)
+        R_squared_val = R_squared(y_true, y_model)
+        MAE_val = MAE(y_true, y_model)
+        fit_index_val = fit_index(y_true, y_model)
 
         print(f"RMSE: {RMSE_val}")
         print(f"NRMSE: {NRMSE_val}")
