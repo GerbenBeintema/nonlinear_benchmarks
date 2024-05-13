@@ -50,7 +50,7 @@ Multiple datasets have been implemented with an official train test split which 
 
 (p.s. datasets without an official train test split can be found in `nonlinear_benchmarks.not_splitted_benchmarks`)
 
-## EMPS
+## [Electro-Mechanical Positioning System (EMPS)](https://www.nonlinearbenchmark.org/benchmarks/emps)
 
 ![image](figures/EMPS.jpg)
 
@@ -61,7 +61,7 @@ train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
 
-## CED
+## [Coupled Electric Drives (CED)](https://www.nonlinearbenchmark.org/benchmarks/coupled-electric-drives)
 
 ![image](figures/CED.jpg)
 
@@ -76,7 +76,7 @@ This dataset consists of two time series where the first has a low input amplitu
 
 You can use both training sets in your training, and please report the RMSE values on both test sets separately. 
 
-## Cascaded_Tanks
+## [Cascaded Tanks with Overflow (Cascaded_Tanks)](https://www.nonlinearbenchmark.org/benchmarks/cascaded-tanks)
 
 ![image](figures/Cascaded_Tanks.jpg)
 
@@ -87,8 +87,7 @@ train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
 
-
-## WienerHammerBenchMark
+## [Wiener-Hammerstein System (WienerHammerBenchMark)](https://www.nonlinearbenchmark.org/benchmarks/wiener-hammerstein)
 
 ![image](figures/WienerHammerBenchMark.jpg)
 
@@ -100,7 +99,7 @@ test_u, test_y = test
 ```
 
 
-## Silverbox
+## [Silverbox](https://www.nonlinearbenchmark.org/benchmarks/silverbox)
 
 ![image](figures/Silverbox.jpg)
 
