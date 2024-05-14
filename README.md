@@ -110,6 +110,8 @@ print(test[0].state_initialization_window_length) # = 50 (for all test sets)
 test_multisine, test_arrow_full, test_arrow_no_extrapolation = test
 ```
 
+Submission test RMSE template: [submission_examples/silverbox.py](submission_examples/silverbox.py)
+
 Note that the test arrow full and the test arrow no extrapolation have some overlap.
 
 # Error Metrics
