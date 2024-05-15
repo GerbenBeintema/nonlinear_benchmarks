@@ -112,7 +112,7 @@ test_multisine, test_arrow_full, test_arrow_no_extrapolation = test
 
 Submission test RMSE template: [submission_examples/silverbox.py](submission_examples/silverbox.py)
 
-Note that the test arrow full and the test arrow no extrapolation have some overlap.
+Note that the `test_arrow_no_extrapolation` is a subset of the `test_arrow_full`.
 
 # Error Metrics
 
@@ -145,3 +145,6 @@ n = test.state_initialization_window_length
 RMSE_result = RMSE(test.y[n:], y_model[n:]) #skip the first n
 print(RMSE_result) #report this number
 ```
+
+For example see the Silverbox submission template: [submission_examples/silverbox.py](submission_examples/silverbox.py)
+
