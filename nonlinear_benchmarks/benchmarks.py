@@ -12,7 +12,8 @@ from pathlib import Path
 from nonlinear_benchmarks.utilities import *
 import numpy as np
 
-def EMPS(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, atleast_2d=False):
+def EMPS(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, \
+         url=None, atleast_2d=False, always_return_tuples_of_datasets=False):
     '''The Electro-Mechanical Positioning System is a standard configuration of a drive system for prismatic joint of robots or machine tools. The main source of nonlinearity is caused by friction effects that are present in the setup. Due to the presence of a pure integrator in the system, the measurements are obtained in a closed-loop setting.
 
     The provided data is described in this link. The provided Electro-Mechanical Positioning System datasets are available for download here. This zip-file contains the system description and available data sets .mat file format.
@@ -43,15 +44,19 @@ def EMPS(train_test_split=True, data_file_locations=False, dir_placement=None, f
         out_data = Input_output_data(u=vir, y=q_cur, sampling_time=t[1]-t[0], name=name)
         datasets.append(out_data)
 
+
+
+
     if train_test_split:
         train_val = datasets[0]
         test = datasets[1]
         test.state_initialization_window_length = 20
-        return atleast_2d_fun(train_val, test, apply=atleast_2d)
+        return always_return_tuples_of_datasets_fun(*atleast_2d_fun(train_val, test, apply=atleast_2d), apply=always_return_tuples_of_datasets)
     else:
         return atleast_2d_fun(datasets, apply=atleast_2d)
 
-def CED(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, atleast_2d=False):
+def CED(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, \
+        url=None, atleast_2d=False, always_return_tuples_of_datasets=False):
     '''The coupled electric drives consists of two electric motors that drive a pulley using a flexible belt. 
     The pulley is held by a spring, resulting in a lightly damped dynamic mode. The electric drives can
     be individually controlled allowing the tension and the speed of the belt to be simultaneously controlled. 
@@ -107,7 +112,8 @@ def CED(train_test_split=True, data_file_locations=False, dir_placement=None, fo
     else:
         return atleast_2d_fun(datasets, apply=atleast_2d)
 
-def Cascaded_Tanks(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, atleast_2d=False):
+def Cascaded_Tanks(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, \
+    atleast_2d=False, always_return_tuples_of_datasets=False):
     #does not work anymore?
     # url = 'https://data.4tu.nl/file/d4810b78-6cdd-48fe-8950-9bd601e5f47f/3b697e42-01a4-4979-a370-813a456c36f5' if url is None else url
     url = 'https://drive.google.com/file/d/1HnQf_gu0g_UlggoBqy2s34l9YJiFdN01/view' if url is None else url
@@ -127,12 +133,13 @@ def Cascaded_Tanks(train_test_split=True, data_file_locations=False, dir_placeme
         train_val = datasets[0]
         test = datasets[1]
         test.state_initialization_window_length = 5
-        return atleast_2d_fun(train_val, test, apply=atleast_2d)
+        return always_return_tuples_of_datasets_fun(*atleast_2d_fun(train_val, test, apply=atleast_2d), apply=always_return_tuples_of_datasets)
     else:
         datasets[0].name, datasets[1].name = 'Cascaded_Tanks first dataset', 'Cascaded_Tanks second dataset'
         return atleast_2d_fun(datasets, apply=atleast_2d)
 
-def WienerHammerBenchMark(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, atleast_2d=False):
+def WienerHammerBenchMark(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, \
+    atleast_2d=False, always_return_tuples_of_datasets=False):
     url = 'http://www.ee.kth.se/~hjalmars/ifac_tc11_benchmarks/2009_wienerhammerstein/WienerHammerBenchMark.mat' if url is None else url
     download_size=1707601
     save_dir = cashed_download(url,'WienerHammerBenchMark',dir_placement=dir_placement,download_size=download_size,force_download=force_download,zipped=False)
@@ -144,16 +151,18 @@ def WienerHammerBenchMark(train_test_split=True, data_file_locations=False, dir_
     u,y,fs = out['uBenchMark'][:,0], out['yBenchMark'][:,0], out['fs'][0,0]
     full_data = Input_output_data(u=u,y=y, sampling_time=1/fs, name='WH benchmark full')
     if train_test_split==False:
-        return atleast_2d_fun(full_data, apply=atleast_2d)
+        V = atleast_2d_fun(full_data, apply=atleast_2d)
+        return (V,) if always_return_tuples_of_datasets else V
     
     sys_data = full_data[5200:184000] 
     train, test = sys_data[:100000], sys_data[100000:]
     train.name = 'train WH'
     test.name = 'test WH'
     test.state_initialization_window_length = 50
-    return atleast_2d_fun(train, test, apply=atleast_2d)
+    return always_return_tuples_of_datasets_fun(*atleast_2d_fun(train, test, apply=atleast_2d), apply=always_return_tuples_of_datasets)
 
-def Silverbox(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, atleast_2d=False):
+def Silverbox(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, \
+    atleast_2d=False, always_return_tuples_of_datasets=False):
     '''The Silverbox system can be seen as an electronic implementation of the Duffing oscillator. It is build as a 
     2nd order linear time-invariant system with a 3rd degree polynomial static nonlinearity around it in feedback. 
     This type of dynamics are, for instance, often encountered in mechanical systems.
@@ -204,7 +213,9 @@ def Silverbox(train_test_split=True, data_file_locations=False, dir_placement=No
 
         from collections import namedtuple
         # m = namedtuple('Silverbox_data_splits', ['test_multisine', 'test_arrow_full', 'test_arrow_no_extrapolation'])
+        multisine_train_val = (multisine_train_val,) if always_return_tuples_of_datasets else multisine_train_val
         return atleast_2d_fun(multisine_train_val, (test_multisine, test_arrow_full, test_arrow_no_extrapolation), apply=atleast_2d)
     else:
+        data2 = (data2,) if always_return_tuples_of_datasets else data2
         return atleast_2d_fun(data2, apply=atleast_2d)
 

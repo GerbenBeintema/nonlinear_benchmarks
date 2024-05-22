@@ -67,7 +67,15 @@ def atleast_2d_fun(*data, apply=True):
     if isinstance(data, Input_output_data):
         return data.atleast_2d()
     else:
-        return [atleast_2d_fun(d, apply=apply) for d in data]
+        return tuple(atleast_2d_fun(d, apply=apply) for d in data)
+
+
+def always_return_tuples_of_datasets_fun(train, test, apply=False):
+    if apply==False:
+        return train, test
+    train = (train,) if not isinstance(train, (list,tuple)) else train
+    test = (test,) if not isinstance(test, (list,tuple)) else test
+    return train, test
 
 
 def get_tmp_benchmark_directory():

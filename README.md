@@ -36,7 +36,8 @@ When using the `WienerHammerBenchMark` (or any other benchmark function), you ca
  * `train_test_split=False` : Retrieves the entire dataset without splitting.
  * `force_download=True` : Forces (re-)downloading of benchmark files.
  * `url=` : Allows manual override of the download link (contact maintainers if the default link is broken).
- * `atleast_2d=True`: Converts input/output arrays to at least 2D shape (e.g., `u.shape = (250,)` becomes `u.shape = (250, 1)`).
+ * `atleast_2d=True`: Converts input/output arrays to at least 2D shape (e.g. `u.shape = (250,)` becomes `u.shape = (250, 1)`).
+ * `always_return_tuples_of_datasets=True`: Even if there is only a single training or test set a list is still returned (i.e. adds `[train] if not isinstance(train,list) else train`)
 
 # Install
 
