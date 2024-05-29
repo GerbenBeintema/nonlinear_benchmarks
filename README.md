@@ -157,5 +157,5 @@ RMSE_result = RMSE(test.y[n:], y_model[n:]) #skip the first n
 print(RMSE_result) #report this number
 ```
 
-For example see the Silverbox submission template: [submission_examples/silverbox.py](submission_examples/silverbox.py)
+For details see the submission template: [submission_examples/](submission_examples/)
 
