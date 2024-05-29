@@ -2,7 +2,8 @@
 import nonlinear_benchmarks
 
 # Load data: 
-#     - You are free to change this, e.g. split train into train and val sets
+# Keep this part fixed, though you can split the train set further in a train and validation set. 
+# Do not use the test set to make any decision about the model (parameters, hyperparameters, structure, ...)
 train, test = nonlinear_benchmarks.Cascaded_Tanks()
 n = test.state_initialization_window_length
 

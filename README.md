@@ -62,7 +62,7 @@ train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
 
-Benchmark Results Submission template: [submission_examples/EMPS.py](submission_examples/EMPS.py)
+Benchmark Results Submission template: [submission_examples/EMPS.py](submission_examples/EMPS.py) (report accuracy in [ticks/s])
 
 
 ## [Coupled Electric Drives (CED)](https://www.nonlinearbenchmark.org/benchmarks/coupled-electric-drives)
@@ -80,7 +80,7 @@ This dataset consists of two time series where the first has a low input amplitu
 
 You can use both training sets in your training, and please report the RMSE values on both test sets separately. 
 
-Benchmark Results Submission template: [submission_examples/CED.py](submission_examples/CED.py)
+Benchmark Results Submission template: [submission_examples/CED.py](submission_examples/CED.py) (report accuracy in [mm])
 
 
 ## [Cascaded Tanks with Overflow (Cascaded_Tanks)](https://www.nonlinearbenchmark.org/benchmarks/cascaded-tanks)
@@ -94,7 +94,7 @@ train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
 
-Benchmark Results Submission template: [submission_examples/Cascaded_Tanks.py](submission_examples/Cascaded_Tanks.py)
+Benchmark Results Submission template: [submission_examples/Cascaded_Tanks.py](submission_examples/Cascaded_Tanks.py) (report accuracy in [V])
 
 ## [Wiener-Hammerstein System (WienerHammerBenchMark)](https://www.nonlinearbenchmark.org/benchmarks/wiener-hammerstein)
 
@@ -107,7 +107,7 @@ train_val_u, train_val_y = train_val
 test_u, test_y = test
 ```
 
-Benchmark Results Submission template: [submission_examples/WienerHammerBenchMark.py](submission_examples/WienerHammerBenchMark.py)
+Benchmark Results Submission template: [submission_examples/WienerHammerBenchMark.py](submission_examples/WienerHammerBenchMark.py) (report accuracy in [mV])
 
 
 ## [Silverbox](https://www.nonlinearbenchmark.org/benchmarks/silverbox)
@@ -121,7 +121,7 @@ print(test[0].state_initialization_window_length) # = 50 (for all test sets)
 test_multisine, test_arrow_full, test_arrow_no_extrapolation = test
 ```
 
-Benchmark Results Submission template: [submission_examples/silverbox.py](submission_examples/silverbox.py)
+Benchmark Results Submission template: [submission_examples/silverbox.py](submission_examples/silverbox.py) (report accuracy in [mV])
 
 Note that the `test_arrow_no_extrapolation` is a subset of the `test_arrow_full`.
 
