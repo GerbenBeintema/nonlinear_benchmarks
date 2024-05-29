@@ -13,7 +13,7 @@ install_requires = ['numpy',
 packages = [a for a in find_namespace_packages(where='.') if a[:6]=='nonlinear_benchmarks']
 
 setup(name = 'nonlinear_benchmarks',
-      version = '0.1.2',
+      version = '0.1.3',
       description = 'The official dataload for http://www.nonlinearbenchmark.org/',
       author = 'Gerben Beintema',
       author_email = 'g.i.beintema@tue.nl',
