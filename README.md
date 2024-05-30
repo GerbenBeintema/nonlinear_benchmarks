@@ -1,7 +1,7 @@
 
 # nonlinear_benchmarks
  
-The official dataloader of [nonlinearbenchmark.org](http://www.nonlinearbenchmark.org/). This toolbox simplifies the process of downloading, loading, and splitting various datasets available on the website. It also some basics instruction on submitting benchmark results and commonly used error metrics.
+The official dataloader of [nonlinearbenchmark.org](http://www.nonlinearbenchmark.org/). This toolbox simplifies the process of downloading, loading, and splitting various datasets available on the website. It also provides basic instructions on submitting benchmark results.
 
 ## Usage Example
 
@@ -145,7 +145,7 @@ print(f"fit index: {fit_index(y_true, y_model)} (https://arxiv.org/pdf/1902.0068
 
 # Benchmark Result Submission
 
-In the reporting of the benchmark result please use it as follows;
+If you would like to submit a benchmark result this can be done through this [google form](https://forms.gle/JF9zR9M9Td9GJgDx8). When reporting the benchmark results please use use the toolbox as follows;
 
 ```python
 train_val, test = nonlinear_benchmarks.WienerHammerBenchMark()
@@ -157,5 +157,5 @@ RMSE_result = RMSE(test.y[n:], y_model[n:]) #skip the first n
 print(RMSE_result) #report this number
 ```
 
-For details see the submission template: [submission_examples/](submission_examples/)
+For details specific to each benchmark see the submission template: [submission_examples/](submission_examples/)
 
