@@ -59,6 +59,10 @@ class Input_output_data:
                                 name=self.name, \
                                 state_initialization_window_length=self.state_initialization_window_length)
 
+    def split(self, frac):
+        s = int(len(self)*(1-frac))
+        return self[:s], self[s:]
+
 def atleast_2d_fun(*data, apply=True):
     if len(data)==1:
         data = data[0]
