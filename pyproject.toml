@@ -2,7 +2,7 @@
 
 [tool.poetry]
 name = "nonlinear_benchmarks"
-version = "0.1.3"
+version = "0.1.4"
 description = "The official dataload for http://www.nonlinearbenchmark.org/"
 authors = ["Gerben I. Beintema"]
 license = "BSD 3-Clause License"

@@ -29,7 +29,6 @@ def EMPS(train_test_split=True, data_file_locations=False, dir_placement=None, f
     #t time
     #vir applied the vector of motor force expressed in the load side i.e. in N;
 
-    # url = 'http://www.nonlinearbenchmark.org/FILES/BENCHMARKS/EMPS/EMPS.zip'
     url = 'https://drive.google.com/file/d/1zwoXYa9-3f8NQ0ohzmjpF7UxbNgRTHkS/view' if url is None else url
     download_size = 1949929
     save_dir = cashed_download(url,'EMPS',zip_name='EMPS.zip', dir_placement=dir_placement,download_size=download_size,force_download=force_download)
@@ -43,9 +42,6 @@ def EMPS(train_test_split=True, data_file_locations=False, dir_placement=None, f
         q_cur, q_ref, t, vir = [matfile[a][:,0] for a in ['qm','qg','t','vir']] #qg is reference, either, q_ref is input or vir is input
         out_data = Input_output_data(u=vir, y=q_cur, sampling_time=t[1]-t[0], name=name)
         datasets.append(out_data)
-
-
-
 
     if train_test_split:
         train_val = datasets[0]
@@ -115,10 +111,12 @@ def CED(train_test_split=True, data_file_locations=False, dir_placement=None, fo
 def Cascaded_Tanks(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, \
     atleast_2d=False, always_return_tuples_of_datasets=False):
     #does not work anymore?
-    # url = 'https://data.4tu.nl/file/d4810b78-6cdd-48fe-8950-9bd601e5f47f/3b697e42-01a4-4979-a370-813a456c36f5' if url is None else url
-    url = 'https://drive.google.com/file/d/1HnQf_gu0g_UlggoBqy2s34l9YJiFdN01/view' if url is None else url
+    urls = ['https://data.4tu.nl/file/d4810b78-6cdd-48fe-8950-9bd601e5f47f/3b697e42-01a4-4979-a370-813a456c36f5', 'https://drive.google.com/file/d/1HnQf_gu0g_UlggoBqy2s34l9YJiFdN01/view']
     download_size = 7520592
-    save_dir = cashed_download(url, 'Cascaded_Tanks', zip_name='CascadedTanksFiles.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
+    if url is not None:
+        urls = [url]
+    save_dir = cashed_download(urls, 'Cascaded_Tanks', zip_name='CascadedTanksFiles.zip',\
+                                       dir_placement=dir_placement,download_size=download_size,force_download=force_download)
     save_dir = os.path.join(save_dir,'CascadedTanksFiles')
 
     d = os.path.join(save_dir,'dataBenchmark.mat')

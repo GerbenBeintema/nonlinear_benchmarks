@@ -159,6 +159,16 @@ def cashed_download(url,name_dir,zip_name=None,dir_placement=None,download_size=
     if dir_name is None it will be saved in the temp directory of the system'''
 
     #finding/making directories
+    if isinstance(url, list):
+        urls = url
+        for url in urls:
+            try:
+                return cashed_download(url, name_dir, zip_name=zip_name,\
+                                        dir_placement=dir_placement,download_size=download_size,force_download=force_download, zipped=zipped)
+            except Exception as e:
+                print(f'Unable to download dataset with {url=} since a "{e}" exception was raised')
+        raise ValueError(f'unable to download with urls: {urls}')
+
     if dir_placement is None:
         p = get_tmp_benchmark_directory() #use temp dir
     else:
