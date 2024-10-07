@@ -217,3 +217,104 @@ def Silverbox(train_test_split=True, data_file_locations=False, dir_placement=No
         data2 = (data2,) if always_return_tuples_of_datasets else data2
         return atleast_2d_fun(data2, apply=atleast_2d)
 
+def ParWH(train_test_split=True, data_file_locations=False, dir_placement=None, force_download=False, url=None, \
+    atleast_2d=False, always_return_tuples_of_datasets=False):
+    '''Parallel Wienner-Hammerstein'''
+    # url = 'http://www.nonlinearbenchmark.org/FILES/BENCHMARKS/PARWH/ParWHFiles.zip'
+    url = 'https://data.4tu.nl/file/5edca002-b132-4985-b8b9-2353c6e85292/2aaf0790-9ade-43d5-a718-39062524fc93' if url is None else url
+    download_size = 58203304
+    save_dir = cashed_download(url,'ParWH',zip_name='ParWHFiles.zip',dir_placement=dir_placement,download_size=download_size,force_download=force_download)
+    save_dir = os.path.join(save_dir,'ParWHFiles') #matfiles location
+    d = os.path.join(save_dir,'ParWHData.mat')
+    if data_file_locations:
+        return d
+
+    out = loadmat(d)
+    # print(out.keys())
+    # print(out['amp'][0]) #5 values 
+    # print(out['fs'][0,0])
+    # print(out['lines'][0]) #range 2:4096
+    # print('uEst',out['uEst'].shape) #(16384, 2, 20, 5), (N samplees, P periods, M Phase changes, nAmp changes)
+    # print('uVal',out['uVal'].shape) #(16384, 2, 1, 5)
+    # print('uValArr',out['uValArr'].shape) #(16384, 2)
+    # print('yEst',out['yEst'].shape) #(16384, 2, 20, 5)
+    # print('yVal',out['yVal'].shape) #(16384, 2, 1, 5)
+    # print('yValArr',out['yValArr'].shape) #(16384, 2)
+
+    fs = out['fs'][0,0]
+
+    datafiles = []
+    datafiles_test = []
+    #todo split train, validation and test
+    uEst = out['uEst'].reshape((16384*2,20,5)) #concats both periods
+    yEst = out['yEst'].reshape((16384*2,20,5))
+    for phase in range(0,20):
+        for amp in range(0,5):
+            datafiles.append(Input_output_data(u=uEst[:, phase, amp],y=yEst[:, phase, amp], sampling_time=1/fs, name=f'Est-phase-{phase}-amp-{amp}'))
+    
+    uVal = out['uVal'].reshape((16384*2,1,5))
+    yVal = out['yVal'].reshape((16384*2,1,5))
+    data = [Input_output_data(u=ui[0],y=yi[0], sampling_time=1/fs,name=f'Val-amp-{amp}') for amp,(ui,yi) in enumerate(zip(uVal.T,yVal.T))]
+    datafiles_test.extend(data) if train_test_split else datafiles.extend(data)
+    
+    #is filtered signal, hence, would require extrapolation.
+    # uValArr = out['uValArr'].reshape((16384,-1)) 
+    # yValArr = out['yValArr'].reshape((16384,-1))
+    # data = [Input_output_data(u=ui,y=yi, sampling_time=1/fs) for ui,yi in zip(uValArr.T,yValArr.T)]
+    # datafiles_test.extend(data) if train_test_split else datafiles.extend(data)
+
+    if train_test_split:
+        return atleast_2d_fun(*datafiles, apply=atleast_2d), atleast_2d_fun(*datafiles_test, apply=atleast_2d)
+    else:
+        return atleast_2d_fun(*datafiles, apply=atleast_2d)
+
+def F16(train_test_split=True, output_index=0, data_file_locations=False, dir_placement=None, force_download=False, url=None, \
+    atleast_2d=False, always_return_tuples_of_datasets=False):
+    '''The F-16 Ground Vibration Test benchmark features a high order system with clearance and friction nonlinearities at the mounting interface of the payloads.
+
+    The experimental data made available to the Workshop participants were acquired on a full-scale F-16 aircraft on the occasion of the Siemens LMS Ground Vibration Testing Master Class, held in September 2014 at the Saffraanberg military basis, Sint-Truiden, Belgium.
+
+    During the test campaign, two dummy payloads were mounted at the wing tips to simulate the mass and inertia properties of real devices typically equipping an F-16 in ﬂight. The aircraft structure was instrumented with accelerometers. One shaker was attached underneath the right wing to apply input signals. The dominant source of nonlinearity in the structural dynamics was expected to originate from the mounting interfaces of the two payloads. These interfaces consist of T-shaped connecting elements on the payload side, slid through a rail attached to the wing side. A preliminary investigation showed that the back connection of the right-wing-to-payload interface was the predominant source of nonlinear distortions in the aircraft dynamics, and is therefore the focus of this benchmark study.
+
+    A detailed formulation of the identification problem can be found here. All the provided files and information on the F-16 aircraft benchmark system are available for download here. This zip-file contains a detailed system description, the estimation and test data sets, and some pictures of the setup. The data is available in the .csv and .mat file format.
+
+    Please refer to the F16 benchmark as:
+
+    J.P. Noël and M. Schoukens, F-16 aircraft benchmark based on ground vibration test data, 2017 Workshop on Nonlinear System Identification Benchmarks, pp. 19-23, Brussels, Belgium, April 24-26, 2017.
+
+    Previously published results on the F-16 Ground Vibration Test benchmark are listed in the history section of this webpage.
+
+    Special thanks to Bart Peeters (Siemens Industry Software) for his help in creating this benchmark.'''
+    #todo this is still broken for some mat files
+    # assert False, 'this is still broken for some files where y has many more dimensions than expected'
+    # url = 'http://www.nonlinearbenchmark.org/FILES/BENCHMARKS/F16/F16GVT_Files.zip'
+
+    if url is None:
+        url = 'https://data.4tu.nl/file/b6dc643b-ecc6-437c-8a8a-1681650ec3fe/5414dfdc-6e8d-4208-be6e-fa553de9866f'
+    download_size = 148455295
+    save_dir = cashed_download(url,'F16',zip_name='F16GVT_Files.zip',dir_placement=dir_placement, download_size=download_size, force_download=force_download)
+    save_dir = os.path.join(save_dir,'F16GVT_Files/BenchmarkData') #matfiles location
+    matfiles = [os.path.join(save_dir,a).replace('\\','/') for a in os.listdir(save_dir) if a.split('.')[-1]=='mat']
+    if data_file_locations:
+        return matfiles
+    datasets = []
+    train, test = [], []
+    for file in sorted(matfiles):
+        out = loadmat(file)
+        Force, Voltage, (y1,y2,y3),Fs = out['Force'][0], out['Voltage'][0], out['Acceleration'], out['Fs'][0,0]
+        #u = Force
+        #y = one of the ys, multi objective regression?
+        name = file.split('/')[-1]
+        if 'SpecialOddMSine' not in name:
+            data = Input_output_data(u=Force,y=[y1,y2,y3][output_index], sampling_time=1/Fs, name=name)
+            if train_test_split:
+                if 'Validation' in name:
+                    test.append(data)
+                else:
+                    train.append(data)
+            else:
+                datasets.append(data)
+    if train_test_split:
+        return atleast_2d_fun(*train, apply=atleast_2d), atleast_2d_fun(*test, apply=atleast_2d)
+    else:
+        return atleast_2d_fun(*datasets, apply=atleast_2d)

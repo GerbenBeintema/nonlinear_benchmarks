@@ -1,6 +1,0 @@
-numpy
-tqdm
-progressbar
-scipy
-requests
-rarfile

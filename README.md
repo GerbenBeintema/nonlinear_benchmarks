@@ -125,6 +125,30 @@ Benchmark Results Submission template: [submission_examples/silverbox.py](submis
 
 Note that the `test_arrow_no_extrapolation` is a subset of the `test_arrow_full`.
 
+## [F-16 Ground Vibration Test](https://www.nonlinearbenchmark.org/benchmarks/f-16-gvt)
+
+![image](figures/F16.jpg)
+
+```python
+train_val, test = nonlinear_benchmarks.F16()
+train_val #8 datasets with lenghts 73728 and 108477
+test #6 datasets with lenghts 73728 and 108477
+```
+
+No submission template created yet.
+
+## [Parallel Wiener-Hammerstein System](https://www.nonlinearbenchmark.org/benchmarks/parallel-wiener-hammerstein)
+
+![image](figures/ParWH.jpg)
+
+```python
+train_val, test = nonlinear_benchmarks.ParWH()
+train_val #100 datsets with each a length of 32768 with 2 periods created with multisine inputs with 5 different amplitudes and 20 different multisine phases
+test #5 datasets with each a length of 32768 with 2 periods of multisine inputs with 5 different amplitudes
+```
+
+No submission template created yet.
+
 # Error Metrics
 
 We also provide error metrics in `nonlinear_benchmarks.error_metrics`.

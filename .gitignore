@@ -5,3 +5,4 @@ dist/
 examples/testing.py
 examples/.ipy*
 examples/testing/
+testing/
